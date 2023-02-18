@@ -1,39 +1,38 @@
 #include<stdio.h>
 #include <limits.h>
 #define size 20
-
+int arr[size];
 int mx=INT_MIN;
-int mn=INT_MAX;
+int mn=INT_MIN;
 
-//	এটি একটি ভুল নিয়ম
-//	সঠিক নিয়ম coming soon
-
-void max_min(int arr[],int left,int right){
-	int mid;
+void max_min(int left,int right){
+	int mid,mxx,mnn;
 	if(left==right){
-		if(mx<arr[left]) mx=arr[left];
-		if(mn>arr[left]) mn=arr[left];
+		mn=mx=arr[left];
 	}
 	else if(left==right-1){
 		if(arr[left]<arr[right]){
-			if(mx<arr[right]) mx=arr[right];
-			if(mn>arr[left]) mn=arr[left];
+			mx=arr[right];
+			mn=arr[left];
 		}
 		else{
-			if(mx<arr[left]) mx=arr[left];
-			if(mn>arr[right]) mn=arr[right];
+			mx=arr[left];
+			mn=arr[right];
 		}
 	}
 	else{
 		mid=left+(right-left)/2;
-		max_min(arr,left,mid);
-		max_min(arr,mid+1,right);
+		max_min(left,mid);
+		mxx=mx;
+		mnn=mn;
+		max_min(mid+1,right);
+		if(mxx>mx) mx=mxx;
+		if(mnn<mn) mn=mnn;
 	}
 }
 
 int main(){
 	int i,n;
-	int arr[size];
 
 	printf("Enter the size of array = ");
 	scanf("%d",&n);
@@ -41,11 +40,12 @@ int main(){
 	for(i=0;i<n;i++)
 		scanf("%d",&arr[i]);
 
-	max_min(arr,0,n-1);
+	max_min(0,n-1);
 
 	printf("Maximum Element = %d\n",mx);
 	printf("Minimum Element = %d",mn);
 
 }
+
 
 //code by jay-neo
