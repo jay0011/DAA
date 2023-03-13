@@ -1,11 +1,10 @@
 #include<stdio.h>
 #define MAX 20
 int arr[MAX][3];
-int seq[MAX],mx;
-int penalty,profit;
 
 void job_seq(int n){
 	int i,j,k;
+	int seq[MAX]={0},mx,penalty=0,profit=0;
 	
 	//Dcending order sorting according to profit
 	for(i=0;i<n-1;i++)
@@ -23,19 +22,31 @@ void job_seq(int n){
 	//Calculate profit, penalty and store job sequencing in array
 	for(i=0;i<n;i++){
 		j=arr[i][2];
-		if(seq[j]==0){
+		while(j>0){
+			if(seq[j]==0) break;
+			j--;
+		}
+		if(j!=0){
 			seq[j]=arr[i][0];
 			profit+=arr[i][1];
 		}
 		else penalty+=arr[i][1];
 	}
-	
-}
 
-void print(int n){
-	int i;
+	printf("After operation:\n");
 	for(i=0;i<n;i++)
 		printf("%d %d %d\n",arr[i][0],arr[i][1],arr[i][2]);
+	
+	//Print all the operarion
+	printf("The Job sequence is: ");
+	for(i=1;i<=mx;i++){
+		if(i==mx) printf("%d",seq[i]);
+		else printf("%d -> ",seq[i]);
+	}
+	printf("\nMaximum deadline = %d\n",mx);
+	printf("Profit = %d\n",profit);
+	printf("Penalty = %d\n",penalty);
+	
 }
 
 int main(){
@@ -53,23 +64,7 @@ int main(){
 		
 	}
 	
-	printf("Given Job:\n");
-	print(n);
-	
 	job_seq(n);
-	
-	printf("After operation:\n");
-	print(n);
-	
-	//Print all the operarion
-	printf("The Job sequence is: ");
-	for(i=1;i<=mx;i++){
-		if(i==mx) printf("%d",seq[i]);
-		else printf("%d -> ",seq[i]);
-	}
-	printf("\nMaximum deadline = %d\n",mx);
-	printf("Profit = %d\n",profit);
-	printf("Penalty = %d\n",penalty);
 	
 }
 //Code by jay-neo
